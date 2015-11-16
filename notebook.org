@@ -1,0 +1,121 @@
+
+* Definitions
+
+** Cluster
+A group of machines to run Docker workloads managed by Azure Container
+Service
+
+** DonateTask
+A unit of work that runs on space cluster capacity. This is the
+workload that our donate application will schedule.
+
+** Host
+A single Docker host in our Cluster
+
+** Queued
+Waiting to execute
+
+** Workload
+Tasks that are scheulde to run on the cluster. The cluster will
+automatically run workloads when a host becomes avaailabe.
+
+* Backlog
+** TODO Dockerize the application
+** TODO Setup the application to run on a test cluster using Chronos
+** DONE Write application as psuedo code
+
+*** Run every x seconds
+*** Check if there is a workload queued 
+*** If there is a queued workload 
+**** If the is a free host
+Do nothing as ACS will schedule the workload to the available host.
+**** If the is no free host 
+Kill enought DonateTasks to allow queued tasks to run
+*** If no queued workload
+**** If the is a free host
+Run as many DonateTasks as there are hosts available
+**** If the is no free host 
+Do nothing
+
+** DONE Validate psuedo code
+Free Hosts = 5
+Working Hosts = 0
+Workloads Queued = 0
+Workloads Running = 0
+DonateTasks Running = 0
+
+Free Hosts = 4
+Working Hosts = 1
+Workloads Queued = 0
+Workloads Running = 0
+DonateTasks Running = 1
+
+Free Hosts = 3
+Working Hosts = 2
+Workloads Queued = 0
+Workloads Running = 0
+DonateTasks Running = 2
+
+Free Hosts = 0
+Working Hosts = 5
+Workloads Queued = 0
+Workloads Running = 0
+DonateTasks Running = 5
+
+Free Hosts = 1
+Working Hosts = 4
+Workloads Queued = 3
+Workloads Running = 0
+DonateTasks Running = 4
+
+Free Hosts = 0
+Working Hosts = 5
+Workloads Queued = 2
+Workloads Running = 1
+DonateTasks Running = 4
+
+Free Hosts = 1
+Working Hosts = 4
+Workloads Queued = 2
+Workloads Running = 1
+DonateTasks Running = 3
+
+Free Hosts = 0
+Working Hosts = 5
+Workloads Queued = 1
+Workloads Running = 2
+DonateTasks Running = 3
+
+Free Hosts = 1
+Working Hosts = 4
+Workloads Queued = 1
+Workloads Running = 2
+DonateTasks Running = 2
+
+Free Hosts = 0
+Working Hosts = 5
+Workloads Queued = 0
+Workloads Running = 3
+DonateTasks Running = 2
+
+Free Hosts = 2
+Working Hosts = 3
+Workloads Queued = 0
+Workloads Running = 1
+DonateTasks Running = 2
+
+Free Hosts = 0
+Working Hosts = 5
+Workloads Queued = 0
+Workloads Running = 1
+DonateTasks Running = 4
+** DONE Write Code
+*** Prevent cycling on start/stop of donate tasks
+When we are at capacity in the cluster the application will always try
+to create a new instance of the donate task. It will then have
+something in the queue and thus will stop a task on the next run. We
+need to stop this rapid cycling.
+
+One approach would be to have a cool off time before a new instance is
+created after one is stopped.
+
