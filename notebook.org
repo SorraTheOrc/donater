@@ -20,6 +20,12 @@ Tasks that are scheulde to run on the cluster. The cluster will
 automatically run workloads when a host becomes avaailabe.
 
 * Backlog
+** TODO Rename to DonatR
+Every project should have a cute name. This one will be called DonatR.
+** TODO Refactor the code to remove hard coded values
+Things like the application name and Marathon endpoints are hard coded
+** TODO Create a GitHub repo and upload the code
+** TODO Create a readmen
 ** TODO Dockerize the application
 ** TODO Setup the application to run on a test cluster using Chronos
 ** DONE Write application as psuedo code
